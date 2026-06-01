@@ -1,6 +1,18 @@
 /* ========================================== */
 /* 1. GLOBAL STYLES                           */
 /* ========================================== */
+:root {
+  --bg: #0d1118;
+  --surface: rgba(15, 23, 42, 0.92);
+  --surface-soft: rgba(255, 255, 255, 0.04);
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --primary: #7c3aed;
+  --primary-soft: rgba(124, 58, 237, 0.18);
+  --border: rgba(148, 163, 184, 0.2);
+  --shadow: 0 18px 60px rgba(15, 23, 42, 0.35);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,24 +20,42 @@
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background: #0f0f0f;
-  color: white;
-  transition: background 0.3s ease, color 0.3s ease;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, rgba(124, 58, 237, 0.16), transparent 30%),
+              linear-gradient(180deg, #07101b 0%, #0d1118 100%);
+  color: var(--text);
+  min-height: 100vh;
   overflow-x: hidden;
+  line-height: 1.7;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
 }
 
 body.light {
-  background: #ffffff;
-  color: #111;
+  background: #f7f8fb;
+  color: #1f2937;
 }
 
 body.light nav {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.92);
 }
 
 body.light .dark-toggle {
-  color: #111;
+  color: #1f2937;
 }
 
 /* ========================================== */
@@ -33,24 +63,32 @@ body.light .dark-toggle {
 /* ========================================== */
 nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  inset: 0 0 auto 0;
   z-index: 1000;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+  padding: 18px 32px;
+  background: rgba(8, 13, 21, 0.72);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
 
-  padding: 15px 40px;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+body.light nav {
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+
+nav h2 {
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
 }
 
 nav h2 a {
   color: inherit;
-  text-decoration: none;
 }
 
 nav ul {
@@ -60,202 +98,269 @@ nav ul {
 }
 
 nav a {
-  color: inherit;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
 }
 
 nav a:hover {
-  color: #6c63ff;
+  color: var(--primary);
+}
+
+.dark-toggle {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.2rem;
+  cursor: pointer;
 }
 
 /* ========================================== */
 /* 3. HERO SECTION STYLES                     */
 /* ========================================== */
 .hero {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 0 24px;
   text-align: center;
-  padding: 0 20px;
-  position: relative;
-  overflow: hidden; /* Mencegah gambar bocor keluar area hero */
 }
 
 .hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
+  max-width: 700px;
+  width: 100%;
+  padding: 140px 0 80px;
 }
 
-/* PEMBATASAN UKURAN FOTO PROFIL (FIXED) */
 .profile-container {
-  margin-bottom: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 160px;  /* Mengunci lebar bungkus foto */
-  height: 160px; /* Mengunci tinggi bungkus foto */
-  animation: float 4s ease-in-out infinite;
+  margin: 0 auto 28px;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.32);
 }
 
 .profile-img {
   width: 100%;
   height: 100%;
-  max-width: 160px;  /* Memaksa foto maksimal berukuran 160px */
-  max-height: 160px; /* Memaksa foto maksimal berukuran 160px */
-  border-radius: 50%; /* Membuat lingkaran bulat sempurna */
-  object-fit: cover; /* Memotong gambar secara proporsional agar tidak gepeng */
-  border: 4px solid #6c63ff; /* Garis tepi warna ungu khas portfoliomu */
-  box-shadow: 0 8px 25px rgba(108, 99, 255, 0.3);
-  transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-/* Efek interaksi saat kursor menyentuh foto */
-.profile-img:hover {
-  transform: scale(1.05);
-  border-color: #574eff;
-  box-shadow: 0 8px 30px rgba(108, 99, 255, 0.5);
-}
-
-/* Animasi melayang lembut */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
+  object-fit: cover;
 }
 
 .hero h1 {
-  font-size: 48px;
-  margin-bottom: 10px;
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+  margin-bottom: 18px;
+  letter-spacing: -0.03em;
 }
 
 .hero span {
-  color: #6c63ff;
+  color: var(--primary);
 }
 
-/* TYPING EFFECT */
 .typing {
-  color: #6c63ff;
-  font-size: 24px;
-  min-height: 35px;
-  margin-bottom: 25px;
+  color: var(--primary);
+  font-size: 1.2rem;
+  min-height: 38px;
+  margin-bottom: 30px;
   font-weight: 600;
 }
 
 .typing::after {
   content: "|";
-  animation: blink 0.7s infinite;
+  animation: blink 0.8s infinite;
 }
 
 @keyframes blink {
   50% { opacity: 0; }
 }
 
-/* HERO BUTTONS */
 .hero-buttons {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .btn {
-  padding: 12px 32px;
-  background: #6c63ff;
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 13px 30px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+  box-shadow: 0 18px 45px rgba(124, 58, 237, 0.18);
 }
 
 .btn:hover {
-  background: #574eff;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(108, 99, 255, 0.5);
+  background: #5b21b6;
 }
 
 /* ========================================== */
-/* 4. ABOUT STYLES                            */
+/* 4. SECTION CARDS                           */
 /* ========================================== */
-.about {
-  padding: 120px 20px 80px 20px; 
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  min-height: 100vh;
-}
-
-.about-container {
-  max-width: 800px;
+section {
   width: 100%;
 }
 
-.about-title {
-  font-size: 32px;
-  margin-bottom: 30px;
+.about,
+.case-study,
+.projects-container,
+.contact-page {
+  padding: 100px 24px;
 }
 
-.about-text p {
-  line-height: 1.8;
-  opacity: 0.85;
-  margin: 15px 0;
-  font-size: 17px;
+.about-container,
+.contact-container {
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+.about-title,
+.case-study-title,
+.contact-title {
+  font-size: clamp(2rem, 2.5vw, 2.8rem);
+  margin-bottom: 24px;
+}
+
+.about-text p,
+.case-study p {
+  max-width: 760px;
+  margin: 0 auto 18px;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.case-study {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+  box-shadow: var(--shadow);
+  padding: 48px 32px;
+  margin: 60px auto 0;
+  max-width: 860px;
+}
+
+.case-study-title {
+  color: #fff;
+}
+
+.skills-section {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.skills-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 18px;
+  color: #e2e8f0;
+}
+
+.skill-list {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.skill-badge {
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  color: #e2e8f0;
+  font-size: 0.95rem;
 }
 
 /* ========================================== */
-/* 5. CONTACT PAGE STYLES                     */
+/* 5. PROJECTS SECTION                         */
+/* ========================================== */
+.projects-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.card {
+  padding: 28px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(124, 58, 237, 0.32);
+}
+
+.card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+}
+
+.card p {
+  color: var(--muted);
+}
+
+/* ========================================== */
+/* 6. CONTACT PAGE STYLES                     */
 /* ========================================== */
 .contact-page {
-  padding: 140px 20px 80px 20px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-}
-
-.contact-container {
-  max-width: 600px;
-  width: 100%;
-  text-align: center;
-}
-
-.contact-title {
-  font-size: 32px;
-  margin-bottom: 35px;
+  padding-bottom: 120px;
 }
 
 .contact-list {
   list-style: none;
+  display: inline-grid;
+  gap: 18px;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
+  max-width: 520px;
+  margin: 0 auto;
 }
 
 .contact-list li {
-  font-size: 18px;
-  display: flex;
-  align-items: center;
+  color: var(--muted);
+  font-size: 1rem;
 }
 
 .contact-list a {
-  color: #6c63ff;
-  text-decoration: none;
-  font-weight: bold;
-  margin-left: 5px;
-  transition: color 0.2s, text-decoration 0.2s;
+  color: var(--primary);
+  font-weight: 700;
 }
 
 .contact-list a:hover {
-  color: #574eff;
-  text-decoration: underline;
+  color: #a78bfa;
+}
+
+/* ========================================== */
+/* 7. RESPONSIVE ADJUSTMENTS                   */
+/* ========================================== */
+@media (max-width: 760px) {
+  nav {
+    padding: 18px 20px;
+  }
+
+  .hero-content {
+    padding-top: 110px;
+  }
+
+  .about,
+  .case-study,
+  .projects-container,
+  .contact-page {
+    padding: 80px 18px;
+  }
 }
 
 body.light .contact-list a {
